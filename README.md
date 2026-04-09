@@ -691,6 +691,31 @@ docker compose logs -f nav-engine           # NAV validation
 docker compose down -v    # Remove containers and volumes
 ```
 
+### Make Commands
+
+Run `make help` to see all available commands. The full reference:
+
+| Command | Description |
+|---|---|
+| `make help` | Show all available commands |
+| `make up` | Build and start all services in detached mode |
+| `make down` | Stop and remove all containers and volumes |
+| `make demo` | Rebuild and run the full demo lifecycle |
+| `make logs` | Tail all container logs |
+| `make build` | Build all images without starting containers |
+| `make restart` | Restart all running containers without rebuilding |
+| `make db-balances` | Query derived investor balances from the ledger |
+| `make db-ledger` | Query recent share and cash ledger entries |
+| `make db-shell` | Interactive PostgreSQL shell |
+| `make health` | Show container status and health |
+| `make integrity` | Show latest reconciliation results and mismatches |
+| `make topics` | List all Kafka topics |
+| `make kafka-tail` | Stream recent Kafka events (exits after 50 messages or 10s timeout) |
+| `make shell-kafka` | Interactive shell inside the Kafka container |
+| `make test` | Run unit tests locally (no Docker required) |
+| `make status` | Show Docker Compose service status |
+| `make clean` | Stop services and prune Docker volumes |
+
 ### Option B: Local Development (Manual Setup)
 
 For running directly on your machine without Docker.
