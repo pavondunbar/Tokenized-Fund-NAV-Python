@@ -67,8 +67,8 @@ db-balances: ## Query derived investor balances from the ledger
 		-c "\echo ''" \
 		-c "\echo '--- Cash Journal Totals ---'" \
 		-c "SELECT journal_id, \
-		           SUM(debit_amount) AS total_debit, \
-		           SUM(credit_amount) AS total_credit \
+		           SUM(CASE WHEN entry_type = 'DEBIT' THEN amount ELSE 0 END) AS total_debit, \
+		           SUM(CASE WHEN entry_type = 'CREDIT' THEN amount ELSE 0 END) AS total_credit \
 		    FROM cash_ledger \
 		    GROUP BY journal_id \
 		    ORDER BY journal_id \
@@ -84,10 +84,11 @@ db-ledger: ## Query share and cash ledger entries
 		    LIMIT 20;" \
 		-c "\echo ''" \
 		-c "\echo '--- Cash Ledger (last 20 entries) ---'" \
-		-c "SELECT cl.journal_id, cl.counterparty, cl.entry_type, \
-		           cl.debit_amount, cl.credit_amount, cl.currency, \
+		-c "SELECT cl.journal_id, i.investor_name, cl.entry_type, \
+		           cl.amount, cl.currency, cl.reason, \
 		           cl.created_at \
 		    FROM cash_ledger cl \
+		    JOIN investors i ON i.id = cl.investor_id \
 		    ORDER BY cl.created_at DESC \
 		    LIMIT 20;"
 
